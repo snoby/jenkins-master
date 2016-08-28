@@ -1,22 +1,60 @@
 FROM jenkins:alpine
 
-ENV JENKINS_HOME_PLUGINS /var/jenkins_home/plugins
 ENV JENKINS_HOME /var/jenkins_home
-RUN mkdir -p "$JENKINS_HOME" && chown -R jenkins:jenkins "$JENKINS_HOME"
+#RUN mkdir -p "$JENKINS_HOME" && chown -R jenkins:jenkins "$JENKINS_HOME"
 
-
-ADD batch-install-jenkins-plugins.sh /batch-install-jenkins-plugins.sh
-ADD incl-plugins.txt /incl-plugins.txt
-ADD excl-plugins.txt /excl-plugins.txt
-
+#
+# The new jenkins Dockerfile now has a script that will automatically download
+# a plugin and all dependencies, we just have to put call it in the Dockerfile
+#
+# we will then call install-plugins.sh
+#
 USER root
-RUN apk add --no-cache python
-RUN mkdir -p "$JENKINS_HOME_PLUGINS" \
-    && chmod +x /batch-install-jenkins-plugins.sh \
-    && sync \
-    && /batch-install-jenkins-plugins.sh -p /incl-plugins.txt -e /excl-plugins.txt -v=1 -d "$JENKINS_HOME_PLUGINS" \
-    && chown -R jenkins:jenkins "$JENKINS_HOME_PLUGINS"
-RUN apk del python
+RUN /usr/local/bin/install-plugins.sh \
+        build-pipeline-plugin         \
+        cloudbees-folder              \
+        dashboard-view                \
+        gradle                        \
+        job-dsl                       \
+        plugin-usage-plugin           \
+        build-flow-plugin             \
+        buildgraph-view               \
+        build-metrics                 \
+        build-timeout                 \
+        claim                         \
+        config-file-provider          \
+        configurationslicing          \
+        console-column-plugin         \
+        dashboard-view                \
+        ansicolor                     \
+        greenballs                    \
+        htmlpublisher                 \
+        credentials                   \
+        ssh-credentials               \
+        ssh-slaves                    \
+        github                        \
+        ghprb                         \
+        workflow-scm-step             \
+        subversion                    \
+        git                           \
+        git-client                    \
+        git-parameter                 \
+        git-changelog                 \
+        pipeline-build-step           \
+        workflow-aggregator           \
+        parameterized-trigger         \
+        slave-setup                   \
+        cisco-spark                   \
+        multi-slave-config-plugin     \
+        mesos                         \
+        marathon                      \
+        ssh-slaves                    \
+        docker-plugin                 \
+        docker-workflow               \
+        docker-slaves                 \
+        docker-build-publish
+
+
 USER jenkins
 
 
