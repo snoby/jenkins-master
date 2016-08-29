@@ -1,5 +1,9 @@
 #!/bin/bash
-set -x
+app="jenkins_master"
+if docker ps | awk -v app="app" 'NR>1{  ($(NF) == app )  }'; then
+  printf "Stopping and removing %s \n" "$app"
+  docker stop "$app" && docker rm -f "$app"
+fi
 
 #
 # Start apt-cacher mirror
@@ -11,7 +15,7 @@ docker run -d                                             \
            --label traefik.port=8080                      \
            --label traefik.enable=true                    \
            --label traefik.frontend.passHostHeader=true   \
-           snoby/jenkins_master
+           iotapi322/jenkins_master
 
 
 #-v "/var/repos/jenkins:/var/jenkins_home"      \

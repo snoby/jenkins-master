@@ -1,15 +1,28 @@
 FROM jenkins:alpine
 
-ENV JENKINS_HOME /var/jenkins_home
-#RUN mkdir -p "$JENKINS_HOME" && chown -R jenkins:jenkins "$JENKINS_HOME"
+
+ENV DOCKER_BUCKET get.docker.com
+ENV DOCKER_VERSION 1.12.1
+ENV DOCKER_SHA256 05ceec7fd937e1416e5dce12b0b6e1c655907d349d52574319a1e875077ccb79
 
 #
-# The new jenkins Dockerfile now has a script that will automatically download
-# a plugin and all dependencies, we just have to put call it in the Dockerfile
-#
-# we will then call install-plugins.sh
+# Install docker
 #
 USER root
+RUN set -x \
+	&& curl -fSL "https://${DOCKER_BUCKET}/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz" -o docker.tgz \
+	&& echo "${DOCKER_SHA256} *docker.tgz" | sha256sum -c - \
+	&& tar -xzvf docker.tgz \
+	&& mv docker/* /usr/local/bin/ \
+	&& rmdir docker \
+	&& rm docker.tgz \
+	&& docker -v
+
+RUN apk add --no-cache subversion
+
+ENV JENKINS_HOME "/var/jenkins_home"
+ENV JENKINS_HOME_PLUGINS "/usr/share/jenkins/ref/plugins"
+
 RUN /usr/local/bin/install-plugins.sh \
         build-pipeline-plugin         \
         cloudbees-folder              \
@@ -46,14 +59,12 @@ RUN /usr/local/bin/install-plugins.sh \
         slave-setup                   \
         cisco-spark                   \
         multi-slave-config-plugin     \
-        mesos                         \
         marathon                      \
         ssh-slaves                    \
         docker-plugin                 \
         docker-workflow               \
         docker-slaves                 \
         docker-build-publish
-
 
 USER jenkins
 
