@@ -68,7 +68,8 @@ RUN /usr/local/bin/install-plugins.sh \
         docker-plugin                 \
         docker-workflow               \
         docker-slaves                 \
-        docker-build-publish
+        docker-build-publish          \
+        simple-travis-runner
 
 USER jenkins
 

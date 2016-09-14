@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Resolve dependencies and download plugins given on the command line
 #
 # FROM jenkins
@@ -64,7 +63,7 @@ function doDownload() {
 	url="$JENKINS_UC/download/plugins/$plugin/$version/${plugin}.hpi"
 
 	echo "Downloading plugin: $plugin from $url"
-	curl --connect-timeout 5 --retry 5 --retry-delay 3 --retry-max-time 60 -s -f -L "$url" -o "$jpi"
+	curl --connect-timeout 20 --retry 5 --retry-delay 20 --retry-max-time 120 -s -f -L "$url" -o "$jpi"
 	return $?
 }
 
