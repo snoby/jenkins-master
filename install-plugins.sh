@@ -60,7 +60,9 @@ function doDownload() {
 		return 0
 	fi
 
-	url="$JENKINS_UC/download/plugins/$plugin/$version/${plugin}.hpi"
+  JENKINS_UC_DOWNLOAD=${JENKINS_UC_DOWNLOAD:-"$JENKINS_UC/download"}
+
+  url="$JENKINS_UC_DOWNLOAD/plugins/$plugin/$version/${plugin}.hpi"
 
 	echo "Downloading plugin: $plugin from $url"
 	curl --connect-timeout 20 --retry 5 --retry-delay 20 --retry-max-time 120 -s -f -L "$url" -o "$jpi"

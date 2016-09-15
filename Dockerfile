@@ -25,7 +25,7 @@ ENV JENKINS_HOME_PLUGINS "/usr/share/jenkins/ref/plugins"
 
 # couple of small tweaks to the install script to make it
 # download and retry downloads
-ADD install-plugins.sh /usr/local/bin/install-plugins.sh
+#ADD install-plugins.sh /usr/local/bin/install-plugins.sh
 
 RUN /usr/local/bin/install-plugins.sh \
         build-pipeline-plugin         \
@@ -42,13 +42,11 @@ RUN /usr/local/bin/install-plugins.sh \
         config-file-provider          \
         configurationslicing          \
         console-column-plugin         \
-        dashboard-view                \
         ansicolor                     \
         greenballs                    \
         htmlpublisher                 \
         credentials                   \
         ssh-credentials               \
-        ssh-slaves                    \
         github                        \
         ghprb                         \
         workflow-scm-step             \
