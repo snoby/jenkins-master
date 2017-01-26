@@ -18,14 +18,11 @@ RUN set -x \
 	&& rm docker.tgz \
 	&& docker -v
 
-RUN apk add --no-cache subversion
+RUN apk add --no-cache subversion   \
+             git                   \
 
 ENV JENKINS_HOME "/var/jenkins_home"
 ENV JENKINS_HOME_PLUGINS "/usr/share/jenkins/ref/plugins"
-
-# couple of small tweaks to the install script to make it
-# download and retry downloads
-#ADD install-plugins.sh /usr/local/bin/install-plugins.sh
 
 RUN /usr/local/bin/install-plugins.sh \
         build-pipeline-plugin         \
