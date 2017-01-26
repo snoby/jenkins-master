@@ -19,7 +19,7 @@ RUN set -x \
 	&& docker -v
 
 RUN apk add --no-cache subversion   \
-             git                   \
+             git
 
 ENV JENKINS_HOME "/var/jenkins_home"
 ENV JENKINS_HOME_PLUGINS "/usr/share/jenkins/ref/plugins"
