@@ -1,4 +1,4 @@
-FROM jenkins:alpine
+FROM jenkins/jenkins:lts-alpine
 
 
 ENV DOCKER_BUCKET get.docker.com
