@@ -1,6 +1,6 @@
 pipeline:
   build:
-    image: ubuntu:17.04
+    image: docker:17.10
     commands:
     - echo "building Jenkins Master"
     - /bin/bash build.sh
