@@ -1,5 +1,6 @@
-build:
-  image: ubuntu:17.04
-  commands:
-  - echo "building Jenkins Master"
-  - /bin/bash build.sh
+pipeline:
+  build:
+    image: ubuntu:17.04
+    commands:
+    - echo "building Jenkins Master"
+    - /bin/bash build.sh
