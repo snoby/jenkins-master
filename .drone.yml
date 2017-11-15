@@ -1,14 +1,5 @@
 build:
-  image: jenkins:alpine
+  image: ubuntu:17.04
   commands:
-  - echo "build commands"
-publish:
-  docker:
-    file: ./Dockerfile
-    insecure: true
-    username: $$docker_user
-    password: $$docker_key
-    registry: $$docker_registry
-    repo: $$docker_repo
-    email: $$docker_user_email
-    tag: $$COMMIT
+  - echo "building Jenkins Master"
+  - /bin/bash build.sh
