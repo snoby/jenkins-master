@@ -1,6 +1,0 @@
-pipeline:
-  build:
-    image: docker:17.10
-    commands:
-    - echo "building Jenkins Master"
-    - /bin/bash build.sh

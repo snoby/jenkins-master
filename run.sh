@@ -1,6 +1,10 @@
 #!/bin/bash
+if [ -e version.env ]; then
+  source version.env
+else
+  export GSD_JENKINS_VERSION=v'1.0.1-2.130-slim'
+fi
 
-VERSION="v1.2"
 MAX_CONT_MEM="8192"
 NUM_OF_CPU=$(getconf _NPROCESSORS_ONLN)
 
@@ -11,8 +15,8 @@ J_GC_OPS="-XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnab
 
 #Take all the memory we are giving the Container and slice of 1GB
 J_MAX=$(( MAX_CONT_MEM-1024 ))
-# Now set the minmum Heap to Half of what our Max Heap will be
-J_MIN=$((J_MAX/2))
+# Now set the minmum Heap to 1/3 of what our Max Heap will be
+J_MIN=$((J_MAX/3))
 # These are the memory options min and max java heap
 J_MEM_OPS="-Xms${J_MIN}m -Xmx${J_MAX}m"
 # Concatenate everything together
@@ -43,13 +47,13 @@ docker run -d                                             \
            -p 8080                                        \
            -p "50000:50000"                               \
            --name=jenkins_master                          \
-           -e "JAVA_OPTS=${J_OPS}"
+           -e "JAVA_OPTS=${J_OPS}"                        \
            -e VIRTUAL_HOST=jenkins.mattsnoby.com          \
            -e VIRTUAL_PORT=8080                           \
            -e LETSENCRYPT_HOST=jenkins.mattsnoby.com      \
            -e LETSENCRYPT_EMAIL=matt.snoby@icloud.com     \
            "--memory=${MAX_CONT_MEM}m"                    \
            "--cpus=${JENKINS_CPU}"                        \
-           "iotapi322/jenkins_master:${VERSION}"
+           "iotapi322/jenkins-master:${GSD_JENKINS_VERSION}"
 
 
