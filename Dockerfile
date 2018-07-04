@@ -85,7 +85,7 @@ ENV TZ America/New_York
 #
 # Drop back down as user jenkins
 # Run as root because we mount host volumes
-USER jenkins
+#USER jenkins
 
 HEALTHCHECK CMD curl --fail http://localhost:8080 || exit 1
 
